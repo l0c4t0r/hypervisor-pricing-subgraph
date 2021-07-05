@@ -1,0 +1,18 @@
+{
+  "name": "hypervisor-pricing",
+  "version": "0.1.0",
+  "repository": "https://github.com/l0c4t0r/hypervisor-pricing-subgraph",
+  "license": "MIT",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy-loc": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ l0c4t0r/hypervisor-pricing",
+    "create-local": "graph create --node http://localhost:8020/ l0c4t0r/hypervisor-pricing",
+    "remove-local": "graph remove --node http://localhost:8020/ l0c4t0r/hypervisor-pricing",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 l0c4t0r/hypervisor-pricing"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.20.1",
+    "@graphprotocol/graph-ts": "^0.20.1"
+  }
+}
