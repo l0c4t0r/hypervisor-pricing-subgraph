@@ -1,4 +1,4 @@
-import { Address } from '@graphprotocol/graph-ts'
+import { log, Address } from '@graphprotocol/graph-ts'
 import { HypervisorCreated } from "../../generated/UniswapV3HypervisorFactory/UniswapV3HypervisorFactory"
 import { UniswapV3Hypervisor as HypervisorContract } from "../../generated/UniswapV3HypervisorFactory/UniswapV3Hypervisor"
 import { UniswapV3Pool as PoolContract } from "../../generated/UniswapV3HypervisorFactory/UniswapV3Pool"
@@ -28,20 +28,32 @@ export function handleHypervisorCreated(event: HypervisorCreated): void {
 	hypervisor.tvl1 = ZERO_BI
 	hypervisor.tvlUSD = ZERO_BD
 	hypervisor.pricePerShare = ZERO_BD
+	hypervisor.lastUpdated = event.block.timestamp
 	hypervisor.save()
+
+	let token0Address = hypervisorContract.token0()
+	let token1Address = hypervisorContract.token1()
 
 	let pool = Pool.load(hypervisor.pool)
 	if (pool == null) {
 		pool = new Pool(hypervisor.pool)
-		pool.hypervisor = hypervisorId
-		pool.token0 = hypervisorContract.token0().toHex()
-	    pool.token1 = hypervisorContract.token1().toHex()
+		pool.hypervisors = []
+		pool.token0 = token0Address.toHex()
+	    pool.token1 = token1Address.toHex()
 	    pool.fee = hypervisorContract.fee()
+	    pool.lastSwapTime = ZERO_BI
 	}
+
+	// Update hypervisors linked to pool
+	let hypervisors = pool.hypervisors
+	hypervisors.push(hypervisorId)
+	pool.hypervisors = hypervisors
 	pool.save()
 
-	let token0 = getOrCreateToken(pool.token0)
-	let token1 = getOrCreateToken(pool.token1)
+	let token0 = getOrCreateToken(token0Address)
+	let token1 = getOrCreateToken(token1Address)
+	token0.save()
+	token1.save()
 
 	PoolTemplate.create(poolAddress)
 }

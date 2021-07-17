@@ -7,6 +7,7 @@
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy-loc": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ l0c4t0r/hypervisor-pricing",
+    "deploy-staging": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ l0c4t0r/hypervisor-subgraph-staging",
     "create-local": "graph create --node http://localhost:8020/ l0c4t0r/hypervisor-pricing",
     "remove-local": "graph remove --node http://localhost:8020/ l0c4t0r/hypervisor-pricing",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 l0c4t0r/hypervisor-pricing"

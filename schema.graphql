@@ -1,24 +1,3 @@
-type Token @entity {
-  # token address
-  id: ID!
-  # token symbol
-  symbol: String!
-  # token name
-  name: String!
-  # token decimals
-  decimals: Int!
-}
-
-type Pool @entity {
-  # Pool address
-  id: ID!
-  hypervisor: Hypervisor!
-  token0: Token!
-  token1: Token!
-  # Fee tier: 50, 3000, 10000
-  fee: Int!
-}
-
 type Hypervisor @entity {
 	id: ID!
 	pool: Pool!
@@ -27,6 +6,8 @@ type Hypervisor @entity {
 	tvl1: BigInt!
 	tvlUSD: BigDecimal!
 	pricePerShare: BigDecimal!
+	dayData: [HypervisorDayData!]! @derivedFrom(field: "hypervisor")
+	lastUpdated: BigInt!
 }
 
 type HypervisorDayData @entity {
@@ -41,4 +22,26 @@ type HypervisorDayData @entity {
 	high: BigDecimal!
 	low: BigDecimal!
 	close: BigDecimal!
+}
+
+type Pool @entity {
+  # Pool address
+  id: ID!
+  token0: Token!
+  token1: Token!
+  # Fee tier: 50, 3000, 10000
+  fee: Int!
+  hypervisors: [String!]!
+  lastSwapTime: BigInt!
+}
+
+type Token @entity {
+  # token address
+  id: ID!
+  # token symbol
+  symbol: String!
+  # token name
+  name: String!
+  # token decimals
+  decimals: Int!
 }

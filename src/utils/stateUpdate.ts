@@ -35,5 +35,7 @@ export function updateState(hypervisorAddress: Address): void {
 		hypervisor.pricePerShare = hypervisor.tvlUSD / hypervisor.totalSupply.toBigDecimal()
 	}
 
+	hypervisor.lastUpdated = pool.lastSwapTime
+
 	hypervisor.save()
 }

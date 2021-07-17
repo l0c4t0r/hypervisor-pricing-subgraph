@@ -1,15 +1,15 @@
-import { BigInt } from '@graphprotocol/graph-ts'
+import { log, BigInt } from '@graphprotocol/graph-ts'
 import { Hypervisor, HypervisorDayData } from '../../generated/schema'
 import { ZERO_BI, ZERO_BD } from './constants'
 
 let SECONDS_IN_DAY = BigInt.fromI32(60 * 60 * 24)
 
-export function updateHypervisorDayData(hypervisorAddress: string, timestamp: BigInt): void {
-
-    let dayNumber = timestamp  / SECONDS_IN_DAY
-    let dayStartTimestamp = dayNumber * SECONDS_IN_DAY
+export function updateHypervisorDayData(hypervisorAddress: string): void {
 
     let hypervisor = Hypervisor.load(hypervisorAddress)
+
+    let dayNumber = hypervisor.lastUpdated / SECONDS_IN_DAY
+    let dayStartTimestamp = dayNumber * SECONDS_IN_DAY
 
     let dayHypervisorId = hypervisorAddress + '-' + dayNumber.toString()
     let hypervisorDayData = HypervisorDayData.load(dayHypervisorId)
